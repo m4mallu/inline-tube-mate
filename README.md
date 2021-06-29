@@ -4,6 +4,7 @@
 
 <br>
 
+  - Bot need to be in Inline Mode
   - Search keyword inline (In bot chat).
   - Send a photo to bot to set custom thumbnail permanently.
   - The thumbnail will be in all the downloads until clear it in options.
@@ -39,7 +40,7 @@ python3 bot.py
 ```
 <br>
 
-### [Join Telegram Bot Update Channel](https://t.me/MRProjects)
+### [Join Telegram Bot Update Channel](https://t.me/RMProjects)
 
 ## Credits
 
