@@ -1,0 +1,8 @@
+# --- Libraries Used:
+# --- For-Bot-Working --------- #
+pyrogram
+TgCrypto
+# --- For-YTDL. --------------- #
+youtube-search-python
+youtube-dl
+wget

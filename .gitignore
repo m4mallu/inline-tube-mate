@@ -1,0 +1,8 @@
+config.py
+bot.session
+venv
+thumbnails
+YThumb
+downloads
+.idea
+__pycache__

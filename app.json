@@ -1,0 +1,29 @@
+{
+  "name": "inline-tube-mate",
+  "description": "Inline YouTube-Dl bot. Create your fork now",
+  "keywords": ["telegram", "inline", "YouTube", "downloader", "bot", "open", "source"],
+  "logo": "https://img1.pnghut.com/9/16/7/xShRuCnGPS/social-media-youtube-facebook-rectangle-brand.jpg",
+  "website": "https://github.com/m4mallu/inline-tube-mate",
+  "repository": "https://github.com/m4mallu/inline-tube-mate",
+  "env": {
+        "APP_ID": {"description": "Get this value from https://my.telegram.org", "required": true},
+        "API_HASH": {"description": "Get this value from https://my.telegram.org" , "required": true},
+        "TG_BOT_TOKEN": {"description": "Get Bot Token From @BotFather Bot", "required": true},
+        "AUTH_USERS": {"description": "List of Authorized user ids separated by space", "required":  false},
+        "ENV": {"description": "Set this to ANYTHING","value": "ANYTHING"}
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    },
+    {
+      "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"
+    }
+  ],
+  "formation": {
+    "worker": {
+      "quantity": 1,
+      "size": "free"
+    }
+  }
+}
