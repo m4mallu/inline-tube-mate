@@ -248,26 +248,15 @@ async def echo(bot, m: Message):
             await msg.delete()
             return
         await msg.delete()
-
-        #await bot.send_message(
-        #    chat_id=m.chat.id,
-        #    text=Presets.FORMAT_SELECTION.format(thumb),
-        #    reply_markup=reply_markup,
-        #    parse_mode="html",
-        #    reply_to_message_id=m.message_id
-        #)
-        await bot.send_photo(
-            photo=thumb,
-            caption=Presets.FORMAT_SELECTION.format(title,
-                                                    link,
-                                                    channel,
-                                                    uploaded_date,
-                                                    views,
-                                                    rating
-                                                    ),
-            chat_id=m.chat.id,
-            reply_to_message_id=m.message_id,
-            reply_markup=reply_markup,
-            parse_mode='html',
-
-        )
+        await m.reply_photo(photo=thumb,
+                            caption=Presets.FORMAT_SELECTION.format(title,
+                                                                    link,
+                                                                    channel,
+                                                                    uploaded_date,
+                                                                    views,
+                                                                    rating
+                                                                    ),
+                            reply_to_message_id=m.message_id,
+                            reply_markup=reply_markup,
+                            parse_mode='html'
+                            )
