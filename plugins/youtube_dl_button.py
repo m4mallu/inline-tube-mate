@@ -85,7 +85,7 @@ async def youtube_dl_call_back(bot, m):
     )
     description = Presets.CUSTOM_CAPTION_UL_FILE
     if "fulltitle" in response_json:
-        description = response_json["fulltitle"][0:1021]
+        description = response_json["fulltitle"][0:1021] + '\n' + Presets.CUSTOM_CAPTION_UL_FILE
     tmp_directory_for_each_user = os.getcwd() + "/" + "downloads" + "/" + str(m.from_user.id)
     if not os.path.isdir(tmp_directory_for_each_user):
         os.makedirs(tmp_directory_for_each_user)

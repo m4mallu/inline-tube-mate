@@ -13,6 +13,7 @@ import json
 import asyncio
 from presets import Presets
 from pyrogram import Client, filters
+from library.extract import yt_link_search
 from library.display_progress import humanbytes
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
 
@@ -219,53 +220,54 @@ async def echo(bot, m: Message):
                 )
             ])
         reply_markup = InlineKeyboardMarkup(inline_keyboard)
-        thumb_image_path = os.getcwd() + "/" + "thumbnails" + "/" + str(m.from_user.id) + ".jpg"
         yt_thumb_image_path = os.getcwd() + "/" + "YThumb" + "/" + str(m.from_user.id) + ".jpg"
-        if not os.path.exists(thumb_image_path):
-            yt_thumb_dir = os.getcwd() + "/" + "YThumb" + "/"
-            if not os.path.isdir(yt_thumb_dir):
-                os.makedirs(yt_thumb_dir)
-            else:
-                try:
-                    os.remove(yt_thumb_image_path)
-                except Exception:
-                    pass
+        yt_thumb_dir = os.getcwd() + "/" + "YThumb" + "/"
+        if not os.path.isdir(yt_thumb_dir):
+            os.makedirs(yt_thumb_dir)
+        else:
             try:
-                exp = "^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*"
-                s = re.findall(exp, url)[0][-1]
-                thumb = f"https://i.ytimg.com/vi/{s}/maxresdefault.jpg"
-                wget.download(thumb, yt_thumb_image_path, bar=None)
+                os.remove(yt_thumb_image_path)
             except Exception:
                 pass
+        try:
+            result = await yt_link_search(url)
+            views = result['viewCount']['text']
+            title = result['title'][:25] + ".."
+            link = result['channel']['link']
+            channel = result['channel']['name']
+            rating = round(result['averageRating'], 1)
+            uploaded_date = result['uploadDate']
+            exp = "^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*"
+            sx = re.findall(exp, url)[0][-1]
+            thumb = f"https://i.ytimg.com/vi/{sx}/maxresdefault.jpg"
+            wget.download(thumb, yt_thumb_image_path, bar=None)
+        except Exception:
+            await msg.edit(Presets.NOT_DOWNLOADABLE)
+            await m.delete()
+            await asyncio.sleep(5)
+            await msg.delete()
+            return
         await msg.delete()
-        await bot.send_message(
+
+        #await bot.send_message(
+        #    chat_id=m.chat.id,
+        #    text=Presets.FORMAT_SELECTION.format(thumb),
+        #    reply_markup=reply_markup,
+        #    parse_mode="html",
+        #    reply_to_message_id=m.message_id
+        #)
+        await bot.send_photo(
+            photo=thumb,
+            caption=Presets.FORMAT_SELECTION.format(title,
+                                                    link,
+                                                    channel,
+                                                    uploaded_date,
+                                                    views,
+                                                    rating
+                                                    ),
             chat_id=m.chat.id,
-            text=Presets.FORMAT_SELECTION,
+            reply_to_message_id=m.message_id,
             reply_markup=reply_markup,
-            parse_mode="html",
-            reply_to_message_id=m.message_id
-        )
-    else:
-        inline_keyboard = []
-        cb_string_file = "{}={}={}".format(
-            "file", "LFO", "NONE")
-        cb_string_video = "{}={}={}".format(
-            "video", "OFL", "ENON")
-        inline_keyboard.append([
-            InlineKeyboardButton(
-                "SVideo",
-                callback_data=cb_string_video.encode("UTF-8")
-            ),
-            InlineKeyboardButton(
-                "DFile",
-                callback_data=cb_string_file.encode("UTF-8")
-            )
-        ])
-        reply_markup = InlineKeyboardMarkup(inline_keyboard)
-        await bot.send_message(
-            chat_id=m.chat.id,
-            text=Presets.FORMAT_SELECTION,
-            reply_markup=reply_markup,
-            parse_mode="html",
-            reply_to_message_id=m.message_id
+            parse_mode='html',
+
         )

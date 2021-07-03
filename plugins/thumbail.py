@@ -32,4 +32,3 @@ async def save_photo(bot, m: Message):
     await msg.edit_text(Presets.SAVED_THUMB)
     await asyncio.sleep(5)
     await msg.delete()
-    await m.delete()

@@ -41,10 +41,18 @@ class Presets(object):
     NO_VOID_FORMAT_FOUND = "<code>{}</code>"
     FINISHED_PROGRESS_STR = "◼️"
     UN_FINISHED_PROGRESS_STR = "◻️"
-    CHECKING_LINK = "⏳ 𝐂𝐡𝐞𝐜𝐤𝐢𝐧𝐠 𝐲𝐨𝐮𝐫 𝐮𝐫𝐥 ⏳"
+    CHECKING_LINK = "⏳ 𝐏𝐥𝐞𝐚𝐬𝐞 𝐖𝐚𝐢𝐭... ⏳"
     DOWNLOAD_START = "𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐢𝐧𝐠... 𝐏𝐥𝐞𝐚𝐬𝐞 𝐖𝐚𝐢𝐭 !"
-    UPLOAD_START = "𝐔𝐩𝐥𝐨𝐚𝐝𝐢𝐧𝐠 𝐢𝐧𝐭𝐨 𝐓𝐞𝐥𝐞𝐠𝐫𝐚𝐦..."
-    FORMAT_SELECTION = "<b>Select the desired format:</b>"
+    UPLOAD_START = "𝐔𝐩𝐥𝐨𝐚𝐝𝐢𝐧𝐠 𝐭𝐨 𝐓𝐞𝐥𝐞𝐠𝐫𝐚𝐦..."
+    NOT_DOWNLOADABLE = "𝐔𝐑𝐋 𝐍𝐨𝐭 𝐝𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐚𝐛𝐥𝐞 !"
+    FORMAT_SELECTION = """
+<b>Title -</b> {}
+<b>Channel -</b> <a href={}>{}</a>
+<b>Uploaded On -</b> {}
+<b>Views -</b> {}  |  <b>Rating:</b> {}
+
+<b>Select the desired format:</b>
+    """
     SET_CUSTOM_USERNAME_PASSWORD = """If you want to download premium videos, provide in the following format:
 URL | newfilename | username | password"""
     CUSTOM_CAPTION_UL_FILE = "<b>Join :-</b> @RMProjects"
