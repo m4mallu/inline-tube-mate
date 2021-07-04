@@ -49,6 +49,13 @@ close_button = [
     ]
 ]
 
+cancel_button = [
+    [
+        InlineKeyboardButton('Cancel', callback_data='cancel_btn')
+    ]
+]
+
+reply_markup_cancel = InlineKeyboardMarkup(cancel_button)
 reply_markup_close = InlineKeyboardMarkup(close_button)
 reply_markup_back = InlineKeyboardMarkup(back_button)
 reply_markup_join = InlineKeyboardMarkup(join_channel)

@@ -7,19 +7,19 @@
 
 import math
 import time
-import logging
 from presets import Presets
+from library.buttons import reply_markup_cancel
 
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
-logging.getLogger("pyrogram").setLevel(logging.WARNING)
+cancel_process = {}
 
 async def progress_for_pyrogram(
     current,
     total,
     ud_type,
     message,
-    start
+    start,
+    bot,
+    id
 ):
     now = time.time()
     diff = now - start
@@ -50,12 +50,14 @@ async def progress_for_pyrogram(
             await message.edit(
                 "{}\n {}".format(
                     ud_type,
-                    tmp
-                )
+                    tmp,
+                ),
+                reply_markup=reply_markup_cancel
             )
         except Exception:
             pass
-
+    if id not in cancel_process:
+        bot.stop_transmission()
 
 def humanbytes(size):
     # 2**10 = 1024

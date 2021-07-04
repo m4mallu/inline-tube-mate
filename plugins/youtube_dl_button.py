@@ -13,6 +13,8 @@ import shutil
 import asyncio
 from presets import Presets
 from datetime import datetime
+from library.buttons import reply_markup_cancel
+from library.display_progress import cancel_process
 from library.buttons import reply_markup_join, reply_markup_close
 from library.display_progress import progress_for_pyrogram, humanbytes
 
@@ -24,6 +26,8 @@ else:
 
 
 async def youtube_dl_call_back(bot, m):
+    id = int(m.from_user.id)
+    cancel_process[id] = int(m.message.message_id)
     cb_data = m.data
     tg_send_type, youtube_dl_format, youtube_dl_ext = cb_data.split("|")
     thumb_image_path = os.getcwd() + "/" + "thumbnails" + "/" + str(m.from_user.id) + ".jpg"
@@ -178,7 +182,8 @@ async def youtube_dl_call_back(bot, m):
             try:
                 await bot.edit_message_text(text=Presets.UPLOAD_START,
                                             chat_id=m.message.chat.id,
-                                            message_id=m.message.message_id
+                                            message_id=m.message.message_id,
+                                            reply_markup=reply_markup_cancel
                                             )
             except Exception:
                 pass
@@ -189,74 +194,82 @@ async def youtube_dl_call_back(bot, m):
             else:
                 thumbnails = None
             start_time = time.time()
-            if tg_send_type == "audio":
-                await m.message.reply_to_message.reply_chat_action("upload_audio")
-                await bot.send_audio(
-                    chat_id=m.message.chat.id,
-                    audio=download_directory,
-                    caption=description,
-                    parse_mode="HTML",
-                    reply_markup=reply_markup_join,
-                    thumb=thumb_nail,
-                    progress=progress_for_pyrogram,
-                    progress_args=(
-                        Presets.UPLOAD_START,
-                        m.message,
-                        start_time
+            if id in cancel_process:
+                if tg_send_type == "audio":
+                    await m.message.reply_to_message.reply_chat_action("upload_audio")
+                    await bot.send_audio(
+                        chat_id=m.message.chat.id,
+                        audio=download_directory,
+                        caption=description,
+                        parse_mode="HTML",
+                        reply_markup=reply_markup_join,
+                        thumb=thumb_nail,
+                        progress=progress_for_pyrogram,
+                        progress_args=(
+                            Presets.UPLOAD_START,
+                            m.message,
+                            start_time,
+                            bot,
+                            id
+                        )
                     )
-                )
-            elif tg_send_type == "file":
-                await m.message.reply_to_message.reply_chat_action("upload_document")
-                await bot.send_document(
-                    chat_id=m.message.chat.id,
-                    document=download_directory,
-                    thumb=thumb_nail,
-                    caption=description,
-                    parse_mode="HTML",
-                    reply_markup=reply_markup_join,
-                    reply_to_message_id=m.message.reply_to_message.message_id,
-                    progress=progress_for_pyrogram,
-                    progress_args=(
-                        Presets.UPLOAD_START,
-                        m.message,
-                        start_time
+                elif tg_send_type == "file":
+                    await m.message.reply_to_message.reply_chat_action("upload_document")
+                    await bot.send_document(
+                        chat_id=m.message.chat.id,
+                        document=download_directory,
+                        thumb=thumb_nail,
+                        caption=description,
+                        parse_mode="HTML",
+                        reply_markup=reply_markup_join,
+                        reply_to_message_id=m.message.reply_to_message.message_id,
+                        progress=progress_for_pyrogram,
+                        progress_args=(
+                            Presets.UPLOAD_START,
+                            m.message,
+                            start_time,
+                            bot,
+                            id
+                        )
                     )
-                )
-            elif tg_send_type == "vm":
-                await m.message.reply_to_message.reply_chat_action("upload_video_note")
-                
-                await bot.send_video_note(
-                    chat_id=m.message.chat.id,
-                    video_note=download_directory,
-                    thumb=thumb_nail,
-                    reply_to_message_id=m.message.reply_to_message.message_id,
-                    progress=progress_for_pyrogram,
-                    progress_args=(
-                        Presets.UPLOAD_START,
-                        m.message,
-                        start_time
+                elif tg_send_type == "vm":
+                    await m.message.reply_to_message.reply_chat_action("upload_video_note")
+                    await bot.send_video_note(
+                        chat_id=m.message.chat.id,
+                        video_note=download_directory,
+                        thumb=thumb_nail,
+                        reply_to_message_id=m.message.reply_to_message.message_id,
+                        progress=progress_for_pyrogram,
+                        progress_args=(
+                            Presets.UPLOAD_START,
+                            m.message,
+                            start_time,
+                            bot,
+                            id
+                        )
                     )
-                )
-            elif tg_send_type == "video":
-                await m.message.reply_to_message.reply_chat_action("upload_video")
-                await bot.send_video(
-                    chat_id=m.message.chat.id,
-                    video=download_directory,
-                    caption=description,
-                    parse_mode="HTML",
-                    supports_streaming=True,
-                    reply_markup=reply_markup_join,
-                    thumb=thumb_nail,
-                    reply_to_message_id=m.message.reply_to_message.message_id,
-                    progress=progress_for_pyrogram,
-                    progress_args=(
-                        Presets.UPLOAD_START,
-                        m.message,
-                        start_time
+                elif tg_send_type == "video":
+                    await m.message.reply_to_message.reply_chat_action("upload_video")
+                    await bot.send_video(
+                        chat_id=m.message.chat.id,
+                        video=download_directory,
+                        caption=description,
+                        parse_mode="HTML",
+                        supports_streaming=True,
+                        reply_markup=reply_markup_join,
+                        thumb=thumb_nail,
+                        reply_to_message_id=m.message.reply_to_message.message_id,
+                        progress=progress_for_pyrogram,
+                        progress_args=(
+                            Presets.UPLOAD_START,
+                            m.message,
+                            start_time,
+                            bot,
+                            id
+                        )
                     )
-                )
-            else:
-                pass
+                else:
+                    pass
             try:
                 shutil.rmtree(tmp_directory_for_each_user)   
             except Exception:

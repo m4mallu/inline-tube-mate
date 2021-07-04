@@ -3,11 +3,12 @@
 # Name     : inline-tube-mate [ Telegram ]
 # Repo     : https://github.com/m4mallu/inine-tube-mate
 # Author   : Renjith Mangal [ https://t.me/space4renjith ]
-
+import asyncio
 import os
 from presets import Presets
 from pyrogram import Client, filters
 from pyrogram.types import CallbackQuery
+from library.display_progress import cancel_process
 from plugins.youtube_dl_button import youtube_dl_call_back
 from library.buttons import reply_markup_del_thumb, reply_markup_start, reply_markup_back
 
@@ -90,7 +91,10 @@ async def back_button(bot, cb: CallbackQuery):
 
 @Client.on_callback_query(filters.regex(r'^close_btn$'))
 async def clos_button(bot, cb: CallbackQuery):
-    await cb.message.delete()
+    try:
+        await cb.message.delete()
+    except Exception:
+        pass
 
 
 @Client.on_callback_query(filters.regex(r'^home_btn$'))
@@ -99,6 +103,15 @@ async def home_button(bot, cb: CallbackQuery):
     await cb.message.reply_text(Presets.OPTIONS_TXT,
                                 reply_markup=reply_markup_start
                                 )
+
+
+@Client.on_callback_query(filters.regex(r'^cancel_btn$'))
+async def cancel_upload_process(bot, cb: CallbackQuery):
+    id = int(cb.from_user.id)
+    cancel_process.pop(id)
+    await cb.message.edit_text(Presets.CANCEL_PROCESS)
+    await asyncio.sleep(5)
+    await cb.message.delete()
 
 
 @Client.on_callback_query()

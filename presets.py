@@ -45,6 +45,7 @@ class Presets(object):
     DOWNLOAD_START = "𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐢𝐧𝐠... 𝐏𝐥𝐞𝐚𝐬𝐞 𝐖𝐚𝐢𝐭 !"
     UPLOAD_START = "𝐔𝐩𝐥𝐨𝐚𝐝𝐢𝐧𝐠 𝐭𝐨 𝐓𝐞𝐥𝐞𝐠𝐫𝐚𝐦..."
     NOT_DOWNLOADABLE = "𝐔𝐑𝐋 𝐍𝐨𝐭 𝐝𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐚𝐛𝐥𝐞 !"
+    CANCEL_PROCESS = "<b>Process Cancelled Successfully</b>  ✅"
     FORMAT_SELECTION = """
 <b>Title -</b> {}
 <b>Channel -</b> <a href={}>{}</a>
