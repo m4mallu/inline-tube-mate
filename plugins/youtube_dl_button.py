@@ -13,6 +13,8 @@ import shutil
 import asyncio
 from presets import Presets
 from datetime import datetime
+from hachoir.parser import createParser
+from hachoir.metadata import extractMetadata
 from library.buttons import reply_markup_cancel
 from library.display_progress import cancel_process
 from library.buttons import reply_markup_join, reply_markup_close
@@ -187,6 +189,13 @@ async def youtube_dl_call_back(bot, m):
                                             )
             except Exception:
                 pass
+            # get the correct width, height, and duration for videos greater than 10MB
+            metadata = extractMetadata(createParser(download_directory))
+            duration = 0
+            if tg_send_type != "file":
+                if metadata is not None:
+                    if metadata.has("duration"):
+                        duration = metadata.get('duration').seconds
             if os.path.exists(thumb_image_path):
                 thumb_nail = thumb_image_path
             elif (not os.path.exists(thumb_image_path)) and (os.path.exists(yt_thumb_image_path)):
@@ -201,8 +210,9 @@ async def youtube_dl_call_back(bot, m):
                         chat_id=m.message.chat.id,
                         audio=download_directory,
                         caption=description,
+                        duration=duration,
                         parse_mode="HTML",
-                        reply_markup=reply_markup_join,
+                        #reply_markup=reply_markup_join,
                         thumb=thumb_nail,
                         progress=progress_for_pyrogram,
                         progress_args=(
@@ -221,7 +231,7 @@ async def youtube_dl_call_back(bot, m):
                         thumb=thumb_nail,
                         caption=description,
                         parse_mode="HTML",
-                        reply_markup=reply_markup_join,
+                        #reply_markup=reply_markup_join,
                         reply_to_message_id=m.message.reply_to_message.message_id,
                         progress=progress_for_pyrogram,
                         progress_args=(
@@ -238,6 +248,7 @@ async def youtube_dl_call_back(bot, m):
                         chat_id=m.message.chat.id,
                         video_note=download_directory,
                         thumb=thumb_nail,
+                        duration=duration,
                         reply_to_message_id=m.message.reply_to_message.message_id,
                         progress=progress_for_pyrogram,
                         progress_args=(
@@ -256,7 +267,8 @@ async def youtube_dl_call_back(bot, m):
                         caption=description,
                         parse_mode="HTML",
                         supports_streaming=True,
-                        reply_markup=reply_markup_join,
+                        duration=duration,
+                        #reply_markup=reply_markup_join,
                         thumb=thumb_nail,
                         reply_to_message_id=m.message.reply_to_message.message_id,
                         progress=progress_for_pyrogram,
@@ -270,6 +282,11 @@ async def youtube_dl_call_back(bot, m):
                     )
                 else:
                     pass
+            await bot.send_message(
+                chat_id = m.message.chat.id,
+                text=Presets.OPTIONS_TXT,
+                reply_markup=reply_markup_join
+            )
             try:
                 shutil.rmtree(tmp_directory_for_each_user)   
             except Exception:

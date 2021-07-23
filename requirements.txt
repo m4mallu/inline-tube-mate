@@ -5,4 +5,5 @@ TgCrypto
 # --- For-YTDL. --------------- #
 youtube-search-python
 youtube-dl
+hachoir
 wget
