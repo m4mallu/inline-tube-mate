@@ -84,14 +84,17 @@ async def youtube_dl_call_back(bot, m):
                 o = entity.offset
                 ln = entity.length
                 youtube_dl_url = youtube_dl_url[o:o + ln]
-    await bot.edit_message_text(
-        text=Presets.DOWNLOAD_START,
-        chat_id=m.message.chat.id,
-        message_id=m.message.message_id
-    )
+    try:
+        await bot.edit_message_text(
+            text=Presets.DOWNLOAD_START,
+            chat_id=m.message.chat.id,
+            message_id=m.message.message_id
+        )
+    except Exception:
+        pass
     description = Presets.CUSTOM_CAPTION_UL_FILE
     if "fulltitle" in response_json:
-        description = response_json["fulltitle"][0:1021] + '\n' + Presets.CUSTOM_CAPTION_UL_FILE
+        description = Presets.CUSTOM_CAPTION_UL_FILE.format(response_json["fulltitle"][0:1021])
     tmp_directory_for_each_user = os.getcwd() + "/" + "downloads" + "/" + str(m.from_user.id)
     if not os.path.isdir(tmp_directory_for_each_user):
         os.makedirs(tmp_directory_for_each_user)
@@ -212,7 +215,6 @@ async def youtube_dl_call_back(bot, m):
                         caption=description,
                         duration=duration,
                         parse_mode="HTML",
-                        #reply_markup=reply_markup_join,
                         thumb=thumb_nail,
                         progress=progress_for_pyrogram,
                         progress_args=(
@@ -231,7 +233,6 @@ async def youtube_dl_call_back(bot, m):
                         thumb=thumb_nail,
                         caption=description,
                         parse_mode="HTML",
-                        #reply_markup=reply_markup_join,
                         reply_to_message_id=m.message.reply_to_message.message_id,
                         progress=progress_for_pyrogram,
                         progress_args=(
@@ -268,7 +269,6 @@ async def youtube_dl_call_back(bot, m):
                         parse_mode="HTML",
                         supports_streaming=True,
                         duration=duration,
-                        #reply_markup=reply_markup_join,
                         thumb=thumb_nail,
                         reply_to_message_id=m.message.reply_to_message.message_id,
                         progress=progress_for_pyrogram,
@@ -282,11 +282,6 @@ async def youtube_dl_call_back(bot, m):
                     )
                 else:
                     pass
-            await bot.send_message(
-                chat_id = m.message.chat.id,
-                text=Presets.OPTIONS_TXT,
-                reply_markup=reply_markup_join
-            )
             try:
                 shutil.rmtree(tmp_directory_for_each_user)   
             except Exception:

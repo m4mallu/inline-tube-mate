@@ -56,7 +56,7 @@ class Presets(object):
     """
     SET_CUSTOM_USERNAME_PASSWORD = """If you want to download premium videos, provide in the following format:
 URL | newfilename | username | password"""
-    CUSTOM_CAPTION_UL_FILE = "<b>Join :-</b> @RMProjects"
+    CUSTOM_CAPTION_UL_FILE = "\xad \xad\n<code>{}</code>\n\n<b>A project of:</b>\n<b><a href='https://t.me/RMProjects'>@RMProjects</a></b>"
     RCHD_TG_API_LIMIT = "Detected File Size: {}\nSorry. But, I cannot upload files " \
                         "greater than 1.95GB due to Telegram API limitations."
     AD_STRING_TO_REPLACE = "please report this issue on https://yt-dl.org/bug . Make sure you are using the " \
