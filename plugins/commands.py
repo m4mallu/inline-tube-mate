@@ -32,9 +32,9 @@ async def start_bot(bot, m: Message):
 async def send_messages(bot, m: Message):
     if m.from_user.id not in Config.SUDO_USERS:
         return
-    msg = await m.reply_text(Presets.SEND_TEXT)
     await m.delete()
     if m.reply_to_message is not None:
+        msg = await m.reply_text(Presets.SEND_TEXT)
         query = await query_msg()
         for row in query:
             chat_id = int(row[0])
