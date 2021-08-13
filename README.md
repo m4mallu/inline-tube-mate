@@ -20,14 +20,23 @@
   </a>
 </p>
 
+## [@BotFather](https://t.me/botfather) Commands
+
+* `start - Check alive`
+* `send - broadcast` (As a reply to any message)
+* `subs - Count active subscribers`
+
 ## Mandatory Variables
 
 * `API_HASH`    Your API Hash from my.telegram.org
 * `API_ID`      Your API ID from my.telegram.org
-* `BOT_TOKEN`   Your bot token from @BotFather
-* `AUTH_USERS`  Create a list of User Ids to use this bot
+* `BOT_TOKEN`   Your bot token from @BotFather.
+* `AUTH_USERS`  Create a list of User Ids to use this bot. (If kept empty, bot will be in public domain)
+* `SUDO_USERS`  Create a list of Super User Ids to use this bot. (For Broadcasting )
+* `DB_URI`  (Mandatory when deployed in local)
 
 ## Deploy Locally
+Create a database URI with the [TUTORIAL](https://telegra.ph/Clonebot-UI-Help-05-30)
 
 Create a `config.py` with the above variables (Refer sample_config.py)
 ```

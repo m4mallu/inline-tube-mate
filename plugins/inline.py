@@ -8,6 +8,7 @@ import os
 import asyncio
 from pyrogram import Client
 from presets import Presets
+from library.sql import add_user
 from library.info import get_info
 from pyrogram.errors import FloodWait
 from library.extract import youtube_search
@@ -22,6 +23,7 @@ else:
 
 @Client.on_inline_query()
 async def inline_search(bot, query: InlineQuery):
+    await add_user(query.from_user.id)
     me = []
     try:
         me = await Client.get_me(bot)

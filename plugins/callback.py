@@ -10,7 +10,7 @@ from pyrogram import Client, filters
 from pyrogram.types import CallbackQuery
 from library.display_progress import cancel_process
 from plugins.youtube_dl_button import youtube_dl_call_back
-from library.buttons import reply_markup_del_thumb, reply_markup_start, reply_markup_back
+from library.buttons import reply_markup_del_thumb, reply_markup_start, reply_markup_back, reply_markup_close
 
 
 if bool(os.environ.get("ENV", False)):
@@ -114,7 +114,17 @@ async def cancel_upload_process(bot, cb: CallbackQuery):
     await cb.message.delete()
 
 
+@Client.on_callback_query(filters.regex(r'^set_thumb_btn$'))
+async def set_thumb(bot, cb: CallbackQuery):
+    await cb.message.edit(Presets.DOWNLOAD_START)
+    thumb_image = os.getcwd() + "/" + "thumbnails" + "/" + str(cb.from_user.id) + ".jpg"
+    message = cb.message.reply_to_message
+    await bot.download_media(message, thumb_image)
+    await cb.message.edit_text(Presets.SAVED_THUMB, reply_markup=reply_markup_close)
+
+
 @Client.on_callback_query()
 async def Youtube_dl_button(bot, cb: CallbackQuery):
     if "|" in cb.data:
+        await youtube_dl_call_back(bot, cb)
         await youtube_dl_call_back(bot, cb)

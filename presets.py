@@ -46,6 +46,11 @@ class Presets(object):
     UPLOAD_START = "𝐔𝐩𝐥𝐨𝐚𝐝𝐢𝐧𝐠 𝐭𝐨 𝐓𝐞𝐥𝐞𝐠𝐫𝐚𝐦..."
     NOT_DOWNLOADABLE = "𝐔𝐑𝐋 𝐍𝐨𝐭 𝐝𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐚𝐛𝐥𝐞 !"
     CANCEL_PROCESS = "<b>Process Cancelled Successfully</b>  ✅"
+    SEND_TEXT = "<b>Processing...</b>\n<i>This message will automatically disappear when the broadcasting is finished</i> "
+    REPLY_ERROR = "<i>Use this command as a replay to any telegram message with out any spaces.</i>"
+    USERS_LIST = "<b>Total: {}</b>\n\nSubscribers - {}\nBlocked / Deleted - {}"
+    WAIT_MSG = "<b>Processing...</b>\n<i>This will take some time...</i>"
+    PROMPT_THUMB = "<b>Do you want to set this image as a thumbnail?</b>"
     FORMAT_SELECTION = """
 <b>Title -</b> {}
 <b>Channel -</b> <a href={}>{}</a>
@@ -56,7 +61,7 @@ class Presets(object):
     """
     SET_CUSTOM_USERNAME_PASSWORD = """If you want to download premium videos, provide in the following format:
 URL | newfilename | username | password"""
-    CUSTOM_CAPTION_UL_FILE = "\xad \xad\n<code>{}</code>\n\n<b>A project of:</b>\n<b><a href='https://t.me/RMProjects'>@RMProjects</a></b>"
+    CUSTOM_CAPTION_UL_FILE = "\xad \xad\n<code>{}</code>\n\n<b>Credits- </b><b><a href='https://t.me/RMProjects'>@RMProjects</a></b>"
     RCHD_TG_API_LIMIT = "Detected File Size: {}\nSorry. But, I cannot upload files " \
                         "greater than 1.95GB due to Telegram API limitations."
     AD_STRING_TO_REPLACE = "please report this issue on https://yt-dl.org/bug . Make sure you are using the " \

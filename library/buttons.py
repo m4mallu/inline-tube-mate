@@ -16,6 +16,10 @@ start_btn = [
     ],
     [
         InlineKeyboardButton('Help', callback_data='help_btn'),
+        InlineKeyboardButton('Support', url='t.me/RMProjects')
+    ],
+    [
+        InlineKeyboardButton('Close', callback_data='close_btn'),
         InlineKeyboardButton('Search Inline', switch_inline_query_current_chat='')
     ]
 ]
@@ -55,12 +59,20 @@ cancel_button = [
     ]
 ]
 
+prompt_thumb_btn = [
+    [
+        InlineKeyboardButton('Yes', callback_data='set_thumb_btn'),
+        InlineKeyboardButton('No', callback_data='close_btn')
+    ]
+]
+
 reply_markup_cancel = InlineKeyboardMarkup(cancel_button)
 reply_markup_close = InlineKeyboardMarkup(close_button)
 reply_markup_back = InlineKeyboardMarkup(back_button)
 reply_markup_join = InlineKeyboardMarkup(join_channel)
 reply_markup_del_thumb = InlineKeyboardMarkup(del_thumb)
 reply_markup_start = InlineKeyboardMarkup(start_btn)
+reply_markup_thumb = InlineKeyboardMarkup(prompt_thumb_btn)
 
 def get_reply_markup(username):
     url = 't.me/share/url?url=' + quote(Presets.SHARE_BUTTON_TEXT.format(username=username))
