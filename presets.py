@@ -1,15 +1,10 @@
 class Presets(object):
     HELP_TEXT = """
 𝙄𝙣𝙡𝙞𝙣𝙚 𝙔𝙤𝙪𝙏𝙪𝙗𝙚 𝘽𝙤𝙩 𝙃𝙚𝙡𝙥:
-
 𝐒𝐞𝐧𝐝 𝐚𝐧𝐲 𝐢𝐦𝐚𝐠𝐞 𝐭𝐨 𝐬𝐞𝐭𝐮𝐩 𝐚 𝐩𝐞𝐫𝐦𝐚𝐧𝐞𝐧𝐭 𝐜𝐮𝐬𝐭𝐨𝐦 𝐭𝐡𝐮𝐦𝐛𝐧𝐚𝐢𝐥 𝐟𝐨𝐫 𝐭𝐡𝐞 𝐯𝐢𝐝𝐞𝐨𝐬. 
-
 𝐓𝐨 𝐝𝐞𝐥𝐞𝐭𝐞 𝐭𝐡𝐞 𝐩𝐫𝐞𝐯𝐢𝐨𝐮𝐬𝐥𝐲 𝐬𝐚𝐯𝐞𝐝 𝐜𝐮𝐬𝐭𝐨𝐦 𝐭𝐡𝐮𝐦𝐛𝐧𝐚𝐢𝐥, 𝐬𝐞𝐥𝐞𝐜𝐭 𝐢𝐧 𝐨𝐩𝐭𝐢𝐨𝐧𝐬. 
-
 𝐈𝐟 𝐧𝐨 𝐜𝐮𝐬𝐭𝐨𝐦 𝐭𝐡𝐮𝐦𝐛𝐧𝐚𝐢𝐥𝐬 𝐚𝐫𝐞 𝐚𝐯𝐚𝐢𝐥𝐚𝐛𝐥𝐞, 𝐛𝐨𝐭 𝐰𝐢𝐥𝐥 𝐬𝐞𝐭 𝐭𝐡𝐞 𝐝𝐞𝐟𝐚𝐮𝐥𝐭 𝐘𝐨𝐮𝐓𝐮𝐛𝐞 𝐭𝐡𝐮𝐦𝐛𝐧𝐚𝐢𝐥 𝐟𝐨𝐫 𝐭𝐡𝐞 𝐯𝐢𝐝𝐞𝐨𝐬.
-
 𝐒𝐞𝐚𝐫𝐜𝐡 𝐢𝐧𝐥𝐢𝐧𝐞 𝐟𝐚𝐜𝐢𝐥𝐢𝐭𝐲, 𝐨𝐫 𝐩𝐚𝐬𝐭𝐞 𝐭𝐡𝐞 𝐘𝐨𝐮𝐓𝐮𝐛𝐞 𝐥𝐢𝐧𝐤 𝐭𝐨 𝐬𝐭𝐚𝐫𝐭 𝐝𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐢𝐧𝐠.
-
 𝐉𝐨𝐢𝐧 <a href='https://t.me/RMProjects'>𝐔𝐩𝐝𝐚𝐭𝐞𝐬</a> | 𝐑𝐞𝐩𝐨 <a href='https://github.com/m4mallu/inline-tube-mate'>𝐋𝐈𝐍𝐊</a>   
     """
     WELCOME_MSG = "𝐇𝐞𝐥𝐥𝐨... {}\n𝐈 𝐜𝐚𝐧 𝐝𝐨𝐰𝐧𝐥𝐨𝐚𝐝 𝐘𝐨𝐮𝐓𝐮𝐛𝐞 𝐯𝐢𝐝𝐞𝐨𝐬.\n𝐒𝐞𝐚𝐫𝐜𝐡 𝐈𝐧𝐥𝐢𝐧𝐞- 𝐬𝐞𝐥𝐞𝐜𝐭 𝐚𝐧𝐝 𝐝𝐨𝐰𝐧𝐥𝐨𝐚𝐝."
@@ -46,7 +41,8 @@ class Presets(object):
     UPLOAD_START = "𝐔𝐩𝐥𝐨𝐚𝐝𝐢𝐧𝐠 𝐭𝐨 𝐓𝐞𝐥𝐞𝐠𝐫𝐚𝐦..."
     NOT_DOWNLOADABLE = "𝐔𝐑𝐋 𝐍𝐨𝐭 𝐝𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐚𝐛𝐥𝐞 !"
     CANCEL_PROCESS = "<b>Process Cancelled Successfully</b>  ✅"
-    SEND_TEXT = "<b>Processing...</b>\n<i>This message will automatically disappear when the broadcasting is finished</i> "
+    SEND_TEXT = "<b>Processing...</b>\n<i>This message will automatically disappear when the broadcasting is " \
+                "finished</i> "
     REPLY_ERROR = "<i>Use this command as a replay to any telegram message with out any spaces.</i>"
     USERS_LIST = "<b>Total: {}</b>\n\nSubscribers - {}\nBlocked / Deleted - {}"
     WAIT_MSG = "<b>Processing...</b>\n<i>This will take some time...</i>"
@@ -56,12 +52,12 @@ class Presets(object):
 <b>Channel -</b> <a href={}>{}</a>
 <b>Uploaded On -</b> {}
 <b>Views -</b> {}  |  <b>Rating:</b> {}
-
 <b>Select the desired format:</b>
     """
     SET_CUSTOM_USERNAME_PASSWORD = """If you want to download premium videos, provide in the following format:
 URL | newfilename | username | password"""
-    CUSTOM_CAPTION_UL_FILE = "\xad \xad\n<code>{}</code>\n\n<b>Credits- </b><b><a href='https://t.me/RMProjects'>@RMProjects</a></b>"
+    CUSTOM_CAPTION_UL_FILE = "\xad \xad\n<code>{}</code>\n\n<b>Credits- </b><b><a " \
+                             "href='https://t.me/RMProjects'>@RMProjects</a></b> "
     RCHD_TG_API_LIMIT = "Detected File Size: {}\nSorry. But, I cannot upload files " \
                         "greater than 1.95GB due to Telegram API limitations."
     AD_STRING_TO_REPLACE = "please report this issue on https://yt-dl.org/bug . Make sure you are using the " \
