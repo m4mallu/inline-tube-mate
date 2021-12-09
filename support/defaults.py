@@ -1,11 +1,12 @@
-# !/usr/bin/env python3
-# -*- coding: utf-8 -*-
-# Name     : inline-tube-mate [ Telegram ]
-# Repo     : https://github.com/m4mallu/inine-tube-mate
-# Author   : Renjith Mangal [ https://t.me/space4renjith ]
+""" !/usr/bin/env python3
+    -*- coding: utf-8 -*-
+    Name     : inline-tube-mate [ Telegram ]
+    Repo     : https://github.com/m4mallu/inine-tube-mate
+    Author   : Renjith Mangal [ https://t.me/space4renjith ]
+    Credits  : https://github.com/SpEcHiDe/AnyDLBot """
 
 from presets import Presets
-from library.buttons import get_reply_markup
+from support.buttons import get_reply_markup
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
 
 async def get_info(username):

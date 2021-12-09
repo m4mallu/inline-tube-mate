@@ -16,6 +16,7 @@
         <li>View the custom thumbnail in option.</li>
         <li>If no thumbnail available, bot will set the default YouTube video thumbnail in downloading.</li>
         <li>If there are authorized users, bot will serve to them only. Else the bot will be in public domain.</li>
+        <li>Sudo Users of this bot can broadcast messages to the bot users.</li>
     </ul>
 </details>
 <details>
@@ -23,7 +24,7 @@
     <p align="left"></p>
     
     start - Check alive
-    send - broadcast                        As reply to any message
+    send - broadcast                   [ As reply to any message ]
     subs - Count active subscribers
 </details>
 <details>
@@ -70,11 +71,11 @@
 </details>
 <details>
     <summary><b>Donate</b></summary>
-    <p align="left"><br>
+    <p align="left">
     <b>Buy me a coffee for the work !</b><br>
     <img src="https://telegra.ph/file/b926b7e8ea84826d81d8a.png" width="260px" style="max-width:100%;"/><br><br>
       <a href="https://www.paypal.me/space4renjith" target="_blank">
-        <img src="https://img.shields.io/badge/Donate-Me-blueviolet?style=for-the-badge&logo=paypal">
+        <img src="https://img.shields.io/badge/Donate-Me%20-orange?style=for-the-badge&logo=paypal">
     </a>
 </p>
 </details>
@@ -82,7 +83,7 @@
   <summary><b>Credits</b></summary>
     <p align="left">
       <a href="https://github.com/pyrogram/pyrogram">
-        <img src="https://img.shields.io/badge/Pyrogram-MTProto%20API-orange?style=for-the-badge&logo=pyrogram" height="32.8">
+        <img src="https://img.shields.io/badge/Pyrogram-Framework%20-orange" height="32.8">
     </a>
     <a href="https://github.com/SpEcHiDe">
         <img src="https://img.shields.io/badge/-SpEcHiDe-orange" height="32.8">
@@ -93,7 +94,7 @@
   <summary><b>License</b></summary>
     <p align="left">
     <a href="https://choosealicense.com/licenses/gpl-3.0/">
-        <img src="https://img.shields.io/badge/License-GPLv3-blueviolet?style=for-the-badge&logo=gplv3">
+        <img src="https://img.shields.io/badge/GPL%20V3-License%20-orange">
     </a>
 </p>
 </details>

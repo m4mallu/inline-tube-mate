@@ -1,10 +1,9 @@
-# !/usr/bin/env python3
-# -*- coding: utf-8 -*-
-# Name     : inline-tube-mate [ Telegram ]
-# Repo     : https://github.com/m4mallu/inine-tube-mate
-# Author   : Renjith Mangal [ https://t.me/space4renjith ]
-# Credits  : https://github.com/SpEcHiDe/AnyDLBot
-
+""" !/usr/bin/env python3
+    -*- coding: utf-8 -*-
+    Name     : inline-tube-mate [ Telegram ]
+    Repo     : https://github.com/m4mallu/inine-tube-mate
+    Author   : Renjith Mangal [ https://t.me/space4renjith ]
+    Credits  : https://github.com/SpEcHiDe/AnyDLBot """
 
 import os
 import time
@@ -13,12 +12,12 @@ import shutil
 import asyncio
 from presets import Presets
 from datetime import datetime
+from pytube import YouTube as ytdl
 from hachoir.parser import createParser
 from hachoir.metadata import extractMetadata
-from library.buttons import reply_markup_cancel
-from library.display_progress import cancel_process
-from library.buttons import reply_markup_join, reply_markup_close
-from library.display_progress import progress_for_pyrogram, humanbytes
+from support.progress import cancel_process
+from support.buttons import reply_markup_cancel, reply_markup_close
+from support.progress import progress_for_pyrogram, humanbytes
 
 
 if bool(os.environ.get("ENV", False)):
@@ -32,8 +31,6 @@ async def youtube_dl_call_back(bot, m):
     cancel_process[id] = int(m.message.message_id)
     cb_data = m.data
     tg_send_type, youtube_dl_format, youtube_dl_ext = cb_data.split("|")
-    thumb_image_path = os.getcwd() + "/" + "thumbnails" + "/" + str(m.from_user.id) + ".jpg"
-    yt_thumb_image_path = os.getcwd() + "/" + "YThumb" + "/" + str(m.from_user.id) + ".jpg"
     save_ytdl_json_path = os.getcwd() + "/" + "downloads" + "/" + str(m.from_user.id) + ".json"
     try:
         with open(save_ytdl_json_path, "r", encoding="utf8") as f:
@@ -45,7 +42,8 @@ async def youtube_dl_call_back(bot, m):
             revoke=True
         )
         return False
-    youtube_dl_url = m.message.reply_to_message.text
+    yt = ytdl(m.message.reply_to_message.text)
+    youtube_dl_url = yt.watch_url
     custom_file_name = str(response_json.get("title")) + "_" + youtube_dl_format + "." + youtube_dl_ext
     thumb_nail = None
     youtube_dl_username = None
@@ -125,9 +123,6 @@ async def youtube_dl_call_back(bot, m):
             "--hls-prefer-ffmpeg", youtube_dl_url,
             "-o", download_directory
         ]
-    if Config.HTTP_PROXY != "":
-        command_to_exec.append("--proxy")
-        command_to_exec.append(Config.HTTP_PROXY)
     if youtube_dl_username is not None:
         command_to_exec.append("--username")
         command_to_exec.append(youtube_dl_username)
@@ -192,13 +187,15 @@ async def youtube_dl_call_back(bot, m):
                                             )
             except Exception:
                 pass
-            # get the correct width, height, and duration for videos greater than 10MB
+            # get the correct width, height, and duration for videos greater than 10Mb
             metadata = extractMetadata(createParser(download_directory))
             duration = 0
             if tg_send_type != "file":
                 if metadata is not None:
                     if metadata.has("duration"):
                         duration = metadata.get('duration').seconds
+            thumb_image_path = os.getcwd() + "/" + "thumbnails" + "/" + str(m.from_user.id) + ".jpg"
+            yt_thumb_image_path = os.getcwd() + "/" + "YThumb" + "/" + str(m.from_user.id) + ".jpg"
             if os.path.exists(thumb_image_path):
                 thumb_nail = thumb_image_path
             elif (not os.path.exists(thumb_image_path)) and (os.path.exists(yt_thumb_image_path)):
@@ -287,6 +284,11 @@ async def youtube_dl_call_back(bot, m):
             except Exception:
                 pass
             await bot.delete_messages(
+               m.message.chat.id,
+               m.message.message_id
+            )
+            await bot.send_message(
                 m.message.chat.id,
-                m.message.message_id
+                Presets.SETTINGS,
+                reply_markup=reply_markup_close
             )

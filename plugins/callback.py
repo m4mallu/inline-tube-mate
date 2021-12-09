@@ -1,17 +1,18 @@
-# !/usr/bin/env python3
-# -*- coding: utf-8 -*-
-# Name     : inline-tube-mate [ Telegram ]
-# Repo     : https://github.com/m4mallu/inine-tube-mate
-# Author   : Renjith Mangal [ https://t.me/space4renjith ]
-import asyncio
+""" !/usr/bin/env python3
+    -*- coding: utf-8 -*-
+    Name     : inline-tube-mate [ Telegram ]
+    Repo     : https://github.com/m4mallu/inine-tube-mate
+    Author   : Renjith Mangal [ https://t.me/space4renjith ]
+    Credits  : https://github.com/SpEcHiDe/AnyDLBot """
+
 import os
-from presets import Presets
+import asyncio
 from pyrogram import Client, filters
 from pyrogram.types import CallbackQuery
-from library.display_progress import cancel_process
-from plugins.youtube_dl_button import youtube_dl_call_back
-from library.buttons import reply_markup_del_thumb, reply_markup_start, reply_markup_back, reply_markup_close
-
+from plugins.dl_button import youtube_dl_call_back
+from presets import Presets
+from support.buttons import reply_markup_del_thumb, reply_markup_start, reply_markup_back, reply_markup_close
+from support.progress import cancel_process
 
 if bool(os.environ.get("ENV", False)):
     from sample_config import Config
@@ -99,10 +100,8 @@ async def clos_button(bot, cb: CallbackQuery):
 
 @Client.on_callback_query(filters.regex(r'^home_btn$'))
 async def home_button(bot, cb: CallbackQuery):
-    await cb.message.delete()
-    await cb.message.reply_text(Presets.OPTIONS_TXT,
-                                reply_markup=reply_markup_start
-                                )
+    # await cb.message.delete()
+    await cb.message.edit(Presets.OPTIONS_TXT, reply_markup=reply_markup_start)
 
 
 @Client.on_callback_query(filters.regex(r'^cancel_btn$'))
@@ -126,5 +125,4 @@ async def set_thumb(bot, cb: CallbackQuery):
 @Client.on_callback_query()
 async def Youtube_dl_button(bot, cb: CallbackQuery):
     if "|" in cb.data:
-        await youtube_dl_call_back(bot, cb)
         await youtube_dl_call_back(bot, cb)

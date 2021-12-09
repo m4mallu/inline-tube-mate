@@ -1,17 +1,16 @@
-# !/usr/bin/env python3
-# -*- coding: utf-8 -*-
-# Name     : inline-tube-mate [ Telegram ]
-# Repo     : https://github.com/m4mallu/inine-tube-mate
-# Author   : Renjith Mangal [ https://t.me/space4renjith ]
-# Credits  : https://github.com/SpEcHiDe/AnyDLBot
+""" !/usr/bin/env python3
+    -*- coding: utf-8 -*-
+    Name     : inline-tube-mate [ Telegram ]
+    Repo     : https://github.com/m4mallu/inine-tube-mate
+    Author   : Renjith Mangal [ https://t.me/space4renjith ]
+    Credits  : https://github.com/SpEcHiDe/AnyDLBot """
 
 import os
 import threading
 from sqlalchemy import create_engine
-from sqlalchemy import Column, TEXT, Numeric
+from sqlalchemy import Column, Numeric
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
-
 
 if bool(os.environ.get("ENV", False)):
     from sample_config import Config
@@ -31,12 +30,14 @@ SESSION = start()
 
 INSERTION_LOCK = threading.RLock()
 
+
 class Ytdl(BASE):
     __tablename__ = "ytdl"
     id = Column(Numeric, primary_key=True)
 
     def __init__(self, id):
         self.id = id
+
 
 Ytdl.__table__.create(checkfirst=True)
 
@@ -51,6 +52,7 @@ async def add_user(id):
             SESSION.commit()
         else:
             pass
+
 
 async def query_msg():
     try:

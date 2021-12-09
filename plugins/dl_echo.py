@@ -1,21 +1,19 @@
-# !/usr/bin/env python3
-# -*- coding: utf-8 -*-
-# Name     : inline-tube-mate [ Telegram ]
-# Repo     : https://github.com/m4mallu/inine-tube-mate
-# Author   : Renjith Mangal [ https://t.me/space4renjith ]
-# Credits  : https://github.com/SpEcHiDe/AnyDLBot
-
+""" !/usr/bin/env python3
+    -*- coding: utf-8 -*-
+    Name     : inline-tube-mate [ Telegram ]
+    Repo     : https://github.com/m4mallu/inine-tube-mate
+    Author   : Renjith Mangal [ https://t.me/space4renjith ]
+    Credits  : https://github.com/SpEcHiDe/AnyDLBot """
 
 import os
-import re
-import wget
 import json
 import asyncio
 from presets import Presets
+from pytube import YouTube as ytdl
 from pyrogram import Client, filters
-from library.extract import yt_link_search
-from library.display_progress import humanbytes
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
+from support.extract import yt_link_search, yt_thumb_dl
+from support.progress import humanbytes
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message, InputMediaPhoto
 
 
 if bool(os.environ.get("ENV", False)):
@@ -24,16 +22,18 @@ else:
     from config import Config
 
 
-ytregex = r"^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$"
+xxx = r"^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$"
 
 
-@Client.on_message(filters.private & filters.regex(ytregex))
+@Client.on_message(filters.private & filters.regex(xxx))
 async def echo(bot, m: Message):
     if Config.AUTH_USERS and (m.from_user.id not in Config.AUTH_USERS):
         await m.reply_text(Presets.NOT_AUTH_TXT, reply_to_message_id=m.message_id)
         return
-    msg = await m.reply_text(text=Presets.CHECKING_LINK, quote=True)
-    url = m.text
+    media = await m.reply_animation(Presets.INITIAL_MEDIA, quote=True)
+    yt = ytdl(m.text)
+    url = yt.watch_url
+    thumb_url = yt.thumbnail_url
     youtube_dl_username = None
     youtube_dl_password = None
     file_name = None
@@ -71,23 +71,14 @@ async def echo(bot, m: Message):
                 o = entity.offset
                 ln = entity.length
                 url = url[o:o + ln]
-    if Config.HTTP_PROXY != "":
-        command_to_exec = [
-            "youtube-dl",
-            "--no-warnings",
-            "--youtube-skip-dash-manifest",
-            "-j",
-            url,
-            "--proxy", Config.HTTP_PROXY
-        ]
-    else:
-        command_to_exec = [
-            "youtube-dl",
-            "--no-warnings",
-            "--youtube-skip-dash-manifest",
-            "-j",
-            url
-        ]
+
+    command_to_exec = [
+        "youtube-dl",
+        "--no-warnings",
+        "--youtube-skip-dash-manifest",
+        "-j",
+        url
+    ]
     if "hotstar" in url:
         command_to_exec.append("--geo-bypass-country")
         command_to_exec.append("IN")
@@ -105,7 +96,6 @@ async def echo(bot, m: Message):
     stdout, stderr = await process.communicate()
     e_response = stderr.decode().strip()
     t_response = stdout.decode().strip()
-
     if e_response and "nonnumeric port" not in e_response:
         error_message = e_response.replace(Presets.AD_STRING_TO_REPLACE, "")
         if "This video is only available for registered users." in error_message:
@@ -220,15 +210,7 @@ async def echo(bot, m: Message):
                 )
             ])
         reply_markup = InlineKeyboardMarkup(inline_keyboard)
-        yt_thumb_image_path = os.getcwd() + "/" + "YThumb" + "/" + str(m.from_user.id) + ".jpg"
-        yt_thumb_dir = os.getcwd() + "/" + "YThumb" + "/"
-        if not os.path.isdir(yt_thumb_dir):
-            os.makedirs(yt_thumb_dir)
-        else:
-            try:
-                os.remove(yt_thumb_image_path)
-            except Exception:
-                pass
+        # Fetching YouTube url details
         try:
             result = await yt_link_search(url)
             views = result['viewCount']['text']
@@ -237,26 +219,16 @@ async def echo(bot, m: Message):
             channel = result['channel']['name']
             rating = round(result['averageRating'], 1)
             uploaded_date = result['uploadDate']
-            exp = "^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*"
-            sx = re.findall(exp, url)[0][-1]
-            thumb = f"https://i.ytimg.com/vi/{sx}/maxresdefault.jpg"
-            wget.download(thumb, yt_thumb_image_path, bar=None)
+            thumb = await yt_thumb_dl(thumb_url, m)
         except Exception:
-            await msg.edit(Presets.NOT_DOWNLOADABLE)
-            await m.delete()
+            await media.edit_caption(Presets.NOT_DOWNLOADABLE)
             await asyncio.sleep(5)
-            await msg.delete()
+            await media.delete()
             return
-        await msg.delete()
-        await m.reply_photo(photo=thumb,
-                            caption=Presets.FORMAT_SELECTION.format(title,
-                                                                    link,
-                                                                    channel,
-                                                                    uploaded_date,
-                                                                    views,
-                                                                    rating
-                                                                    ),
-                            reply_to_message_id=m.message_id,
-                            reply_markup=reply_markup,
-                            parse_mode='html'
-                            )
+        await media.edit_media(
+            InputMediaPhoto(
+                media=thumb,
+                caption=Presets.FORMAT_SELECTION.format(title, link, channel, uploaded_date, views, rating),
+                parse_mode="html"),
+            reply_markup=reply_markup
+        )

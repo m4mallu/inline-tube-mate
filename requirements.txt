@@ -5,6 +5,7 @@ TgCrypto
 # --- For-YTDL. --------------- #
 youtube-search-python
 youtube-dl
+pytube
 hachoir
 wget
 # --- Database ---------------- #

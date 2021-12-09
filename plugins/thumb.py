@@ -1,16 +1,16 @@
-# !/usr/bin/env python3
-# -*- coding: utf-8 -*-
-# Name     : inline-tube-mate [ Telegram ]
-# Repo     : https://github.com/m4mallu/inine-tube-mate
-# Author   : Renjith Mangal [ https://t.me/space4renjith ]
-
+""" !/usr/bin/env python3
+    -*- coding: utf-8 -*-
+    Name     : inline-tube-mate [ Telegram ]
+    Repo     : https://github.com/m4mallu/inine-tube-mate
+    Author   : Renjith Mangal [ https://t.me/space4renjith ]
+    Credits  : https://github.com/SpEcHiDe/AnyDLBot """
 
 import os
 import asyncio
 from presets import Presets
 from pyrogram.types import Message
 from pyrogram import Client, filters
-from library.buttons import reply_markup_thumb, reply_markup_close
+from support.buttons import reply_markup_thumb, reply_markup_close
 
 
 if bool(os.environ.get("ENV", False)):

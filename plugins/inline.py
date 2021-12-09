@@ -1,17 +1,18 @@
-# !/usr/bin/env python3
-# -*- coding: utf-8 -*-
-# Name     : inline-tube-mate [ Telegram ]
-# Repo     : https://github.com/m4mallu/inine-tube-mate
-# Author   : Renjith Mangal [ https://t.me/space4renjith ]
+""" !/usr/bin/env python3
+    -*- coding: utf-8 -*-
+    Name     : inline-tube-mate [ Telegram ]
+    Repo     : https://github.com/m4mallu/inine-tube-mate
+    Author   : Renjith Mangal [ https://t.me/space4renjith ]
+    Credits  : https://github.com/SpEcHiDe/AnyDLBot """
 
 import os
 import asyncio
 from pyrogram import Client
 from presets import Presets
-from library.sql import add_user
-from library.info import get_info
+from support.sqldb import add_user
+from support.defaults import get_info
 from pyrogram.errors import FloodWait
-from library.extract import youtube_search
+from support.extract import youtube_search
 from pyrogram.types import InlineQuery, InlineQueryResultArticle, InputTextMessageContent
 
 
