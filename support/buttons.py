@@ -69,9 +69,32 @@ reply_markup_del_thumb = InlineKeyboardMarkup(del_thumb)
 reply_markup_start = InlineKeyboardMarkup(start_btn)
 reply_markup_thumb = InlineKeyboardMarkup(prompt_thumb_btn)
 
+
 def get_reply_markup(username):
     url = 't.me/share/url?url=' + quote(Presets.SHARE_BUTTON_TEXT.format(username=username))
     buttons = [[InlineKeyboardButton('Share bot', url=url),
                 InlineKeyboardButton("Search Inline", switch_inline_query_current_chat='')]]
     reply_markup_share = InlineKeyboardMarkup(buttons)
     return reply_markup_share
+
+
+def get_chat_invite_link(link):
+    buttons = [
+              [
+                  InlineKeyboardButton('❌ Close', callback_data='close_btn'),
+                  InlineKeyboardButton('Join Now', url='{}'.format(link))
+              ]
+              ]
+    reply_markup_invite_link = InlineKeyboardMarkup(buttons)
+    return reply_markup_invite_link
+
+
+def get_public_chat_link(username):
+    buttons = [
+              [
+                  InlineKeyboardButton('❌ Close', callback_data='close_btn'),
+                  InlineKeyboardButton('Join Now', url='https://t.me/{}'.format(username))
+              ]
+              ]
+    reply_markup_public_url = InlineKeyboardMarkup(buttons)
+    return reply_markup_public_url

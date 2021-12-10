@@ -34,6 +34,9 @@ class Config(object):
     # Database URI
     DB_URI = os.environ.get("DATABASE_URL", "")
 
+    # Force subscribe channel / group id starting with -100
+    FORCE_SUB_CHAT = int(os.environ.get("FORCE_SUB_CHAT", ""))
+
     # Telegram maximum file upload size
     TG_MAX_FILE_SIZE = 2097152000
 

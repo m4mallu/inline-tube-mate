@@ -7,12 +7,13 @@
 
 import os
 import asyncio
+from presets import Presets
 from pyrogram import Client, filters
 from pyrogram.types import CallbackQuery
-from plugins.dl_button import youtube_dl_call_back
-from presets import Presets
-from support.buttons import reply_markup_del_thumb, reply_markup_start, reply_markup_back, reply_markup_close
 from support.progress import cancel_process
+from plugins.dl_button import youtube_dl_call_back
+from support.buttons import reply_markup_del_thumb, reply_markup_start, reply_markup_back, reply_markup_close
+
 
 if bool(os.environ.get("ENV", False)):
     from sample_config import Config
@@ -109,7 +110,7 @@ async def cancel_upload_process(bot, cb: CallbackQuery):
     id = int(cb.from_user.id)
     cancel_process.pop(id)
     await cb.message.edit_text(Presets.CANCEL_PROCESS)
-    await asyncio.sleep(5)
+    await asyncio.sleep(2)
     await cb.message.delete()
 
 

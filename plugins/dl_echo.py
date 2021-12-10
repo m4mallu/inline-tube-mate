@@ -11,8 +11,9 @@ import asyncio
 from presets import Presets
 from pytube import YouTube as ytdl
 from pyrogram import Client, filters
-from support.extract import yt_link_search, yt_thumb_dl
 from support.progress import humanbytes
+from support.extract import yt_link_search, yt_thumb_dl
+from support.buttons import reply_markup_close, get_chat_invite_link, get_public_chat_link
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message, InputMediaPhoto
 
 
@@ -27,9 +28,49 @@ xxx = r"^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-
 
 @Client.on_message(filters.private & filters.regex(xxx))
 async def echo(bot, m: Message):
+    # If the Authorized user list is present, then only allow the above users to download videos. Else, will allow all.
     if Config.AUTH_USERS and (m.from_user.id not in Config.AUTH_USERS):
-        await m.reply_text(Presets.NOT_AUTH_TXT, reply_to_message_id=m.message_id)
+        await m.reply_text(Presets.NOT_AUTH_TXT, reply_markup=reply_markup_close)
         return
+    # Force a subscriber to join a specific chat [ It happens only when Authorized users list is empty]
+    if (not Config.AUTH_USERS) and Config.FORCE_SUB_CHAT:
+        chat = []
+        me = await bot.get_me()
+        # Checking, the bot is already in the chat or not.
+        try:
+            await bot.get_chat_member(Config.FORCE_SUB_CHAT, me.username)
+        except Exception:
+            await m.reply_text(Presets.BOT_NOT_PRESENT, reply_markup=reply_markup_close)
+            return
+        # Checking, the user is already in the chat or not. Also collecting the chat parameters.
+        try:
+            chat = await bot.get_chat(Config.FORCE_SUB_CHAT)
+            await bot.get_chat_member(Config.FORCE_SUB_CHAT, m.from_user.username)
+        except Exception:
+            # If the user is not in the chat, then force him to join the chat.
+            # For public chats.
+            if chat.username:
+                await m.reply_text(
+                    Presets.NOT_SUB_TXT,
+                    reply_markup=get_public_chat_link(chat.username)
+                )
+                return
+            # For private chats
+            elif chat.invite_link:
+                await m.reply_text(
+                    Presets.NOT_SUB_TXT,
+                    reply_markup=get_chat_invite_link(chat.invite_link)
+                )
+                return
+            else:
+                # If an invite link is not found, then throw a message to create an invite link.
+                await m.reply_text(
+                    Presets.NO_INVITE_METHOD,
+                    reply_markup=reply_markup_close
+                )
+                return
+    else:
+        pass
     media = await m.reply_animation(Presets.INITIAL_MEDIA, quote=True)
     yt = ytdl(m.text)
     url = yt.watch_url

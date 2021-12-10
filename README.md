@@ -15,8 +15,9 @@
         <li>The thumbnail will be in all the downloads until clear it in options.</li>
         <li>View the custom thumbnail in option.</li>
         <li>If no thumbnail available, bot will set the default YouTube video thumbnail in downloading.</li>
-        <li>If there are authorized users, bot will serve to them only. Else the bot will be in public domain.</li>
+        <li>Authorized users facility [The bot will be in public when this list kept empty]</li>
         <li>Sudo Users of this bot can broadcast messages to the bot users.</li>
+        <li>Force users to subscribe a specific chat. [works as normal when list is empty]</li>
     </ul>
 </details>
 <details>

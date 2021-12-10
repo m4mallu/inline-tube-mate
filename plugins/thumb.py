@@ -6,7 +6,6 @@
     Credits  : https://github.com/SpEcHiDe/AnyDLBot """
 
 import os
-import asyncio
 from presets import Presets
 from pyrogram.types import Message
 from pyrogram import Client, filters
@@ -26,10 +25,7 @@ async def save_photo(bot, m: Message):
         await msg.edit(Presets.PROMPT_THUMB, reply_markup=reply_markup_thumb)
         return
     if Config.AUTH_USERS and (m.from_user.id not in Config.AUTH_USERS):
-        await m.delete()
-        await msg.edit_text(Presets.NOT_AUTH_TXT)
-        await asyncio.sleep(5)
-        await msg.delete()
+        await msg.edit_text(Presets.NOT_AUTH_TXT, reply_markup=reply_markup_close)
         return
     thumb_image = os.getcwd() + "/" + "thumbnails" + "/" + str(m.from_user.id) + ".jpg"
     await bot.download_media(m, thumb_image)

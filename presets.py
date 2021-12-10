@@ -24,7 +24,7 @@ class Presets(object):
     RESULTS_TXT = "👀 Results:"
     NO_RESULTS = "❌ No Results"
     DESCRIPTION = "Duration: {} || {}"
-    NOT_AUTH_TXT = "❌ ❌ You are not Authorized ❌ ❌"
+    NOT_AUTH_TXT = "<b>Error : </b>\n\n<code>You are not Authorized to use this bot.</code>"
     DEFAULT_TITLE = "Inline Tube Mate Repository"
     DEFAULT_THUMB_URL = "https://image.flaticon.com/icons/png/512/25/25231.png"
     DEFAULT_LINK = "https://github.com/m4mallu/inline-tube-mate"
@@ -65,6 +65,10 @@ class Presets(object):
 
 👇<code>Select the required format</code>👇
     """
+    NOT_SUB_TXT = "<b>Oopz </b> 😯\n\n<code>In order to use this feature, You need to join my channel.</code>"
+    BOT_NOT_PRESENT = "<b>Error : </b>\n\n<code>Bot need to be an admin to the force subscribe chat !</code>"
+    NO_INVITE_METHOD = "<b>Error : </b>\n\n<code>Chat invite method not found ! Try to generate an invite " \
+                       "link in your force subscribe chat.</code>"
     SET_CUSTOM_USERNAME_PASSWORD = """If you want to download premium videos, provide in the following format:
 URL | newfilename | username | password"""
     CUSTOM_CAPTION_UL_FILE = "\xad \xad\n<b>{}</b>\n\n<b>DL Credits: </b><b><a " \
