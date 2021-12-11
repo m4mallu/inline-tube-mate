@@ -25,7 +25,8 @@ async def yt_thumb_dl(thumb_url, m):
         os.makedirs(yt_thumb_dir)
     else:
         try:
-            os.remove(yt_thumb_image_path)
+            for f in os.listdir(yt_thumb_dir):
+                os.remove(os.path.join(yt_thumb_dir, f))
         except Exception:
             pass
     thumb = wget.download(thumb_url, yt_thumb_image_path, bar=None)

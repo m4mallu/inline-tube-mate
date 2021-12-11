@@ -16,8 +16,8 @@ from pytube import YouTube as ytdl
 from hachoir.parser import createParser
 from support.progress import cancel_process
 from hachoir.metadata import extractMetadata
-from support.buttons import reply_markup_cancel, reply_markup_close
 from support.progress import progress_for_pyrogram, humanbytes
+from support.buttons import reply_markup_cancel, reply_markup_close
 
 
 if bool(os.environ.get("ENV", False)):
@@ -201,7 +201,7 @@ async def youtube_dl_call_back(bot, m):
             elif (not os.path.exists(thumb_image_path)) and (os.path.exists(yt_thumb_image_path)):
                 thumb_nail = yt_thumb_image_path
             else:
-                thumbnails = None
+                thumb_nail = None
             start_time = time.time()
             if id in cancel_process:
                 if tg_send_type == "audio":
