@@ -38,14 +38,14 @@ async def echo(bot, m: Message):
         me = await bot.get_me()
         # Checking, the bot is already in the chat or not.
         try:
-            await bot.get_chat_member(Config.FORCE_SUB_CHAT, me.username)
+            await bot.get_chat_member(int(Config.FORCE_SUB_CHAT), me.username)
         except Exception:
             await m.reply_text(Presets.BOT_NOT_PRESENT, reply_markup=reply_markup_close)
             return
         # Checking, the user is already in the chat or not. Also collecting the chat parameters.
         try:
-            chat = await bot.get_chat(Config.FORCE_SUB_CHAT)
-            await bot.get_chat_member(Config.FORCE_SUB_CHAT, m.from_user.username)
+            chat = await bot.get_chat(int(Config.FORCE_SUB_CHAT))
+            await bot.get_chat_member(int(Config.FORCE_SUB_CHAT), m.from_user.username)
         except Exception:
             # If the user is not in the chat, then force him to join the chat.
             # For public chats.
