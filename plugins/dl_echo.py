@@ -75,44 +75,6 @@ async def echo(bot, m: Message):
     yt = ytdl(m.text)
     url = yt.watch_url
     thumb_url = yt.thumbnail_url
-    youtube_dl_username = None
-    youtube_dl_password = None
-    file_name = None
-    if "|" in url:
-        url_parts = url.split("|")
-        if len(url_parts) == 2:
-            url = url_parts[0]
-            file_name = url_parts[1]
-        elif len(url_parts) == 4:
-            url = url_parts[0]
-            file_name = url_parts[1]
-            youtube_dl_username = url_parts[2]
-            youtube_dl_password = url_parts[3]
-        else:
-            for entity in m.entities:
-                if entity.type == "text_link":
-                    url = entity.url
-                elif entity.type == "url":
-                    o = entity.offset
-                    ln = entity.length
-                    url = url[o:o + ln]
-        if url is not None:
-            url = url.strip()
-        if file_name is not None:
-            file_name = file_name.strip()
-        if youtube_dl_username is not None:
-            youtube_dl_username = youtube_dl_username.strip()
-        if youtube_dl_password is not None:
-            youtube_dl_password = youtube_dl_password.strip()
-    else:
-        for entity in m.entities:
-            if entity.type == "text_link":
-                url = entity.url
-            elif entity.type == "url":
-                o = entity.offset
-                ln = entity.length
-                url = url[o:o + ln]
-
     command_to_exec = [
         "youtube-dl",
         "--no-warnings",
@@ -120,15 +82,6 @@ async def echo(bot, m: Message):
         "-j",
         url
     ]
-    if "hotstar" in url:
-        command_to_exec.append("--geo-bypass-country")
-        command_to_exec.append("IN")
-    if youtube_dl_username is not None:
-        command_to_exec.append("--username")
-        command_to_exec.append(youtube_dl_username)
-    if youtube_dl_password is not None:
-        command_to_exec.append("--password")
-        command_to_exec.append(youtube_dl_password)
     process = await asyncio.create_subprocess_exec(
         *command_to_exec,
         stdout=asyncio.subprocess.PIPE,
