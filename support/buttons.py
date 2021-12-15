@@ -12,25 +12,24 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 # Buttons used
 start_btn = [
     [
-        InlineKeyboardButton('View Thumb', callback_data='view_btn'),
-        InlineKeyboardButton('Del Thumb', callback_data='del_btn')
-
+        InlineKeyboardButton('🎖 GitHub', url=Presets.SOURCE_URL),
+        InlineKeyboardButton('🔰 Support', url=Presets.SUPPORT_URL)
     ],
     [
-        InlineKeyboardButton('Help', callback_data='help_btn'),
-        InlineKeyboardButton('Support', url='t.me/RMProjects')
+        InlineKeyboardButton('📸 Thumbnail', callback_data='view_btn'),
+        InlineKeyboardButton('❓ Help', callback_data='help_btn')
     ],
     [
-        InlineKeyboardButton('Close', callback_data='close_btn'),
-        InlineKeyboardButton('Search Inline', switch_inline_query_current_chat='')
+        InlineKeyboardButton('❌ Close', callback_data='close_btn'),
+        InlineKeyboardButton('🔎 Search Inline', switch_inline_query_current_chat='')
     ]
     ]
 
 
 del_thumb = [
             [
-                InlineKeyboardButton("DEL THUMB", callback_data="thumb_del_conf_btn"),
-                InlineKeyboardButton("Back", callback_data="a_back_btn")
+                InlineKeyboardButton("⛔️ DEL THUMB", callback_data="thumb_del_conf_btn"),
+                InlineKeyboardButton("⬅️ Back", callback_data="a_back_btn")
             ]
             ]
 
@@ -44,20 +43,20 @@ back_button = [
 close_button = [
                [
                     InlineKeyboardButton('❌ Close', callback_data='close_btn'),
-                    InlineKeyboardButton('Home', callback_data='home_btn')
+                    InlineKeyboardButton('🏠 Home', callback_data='home_btn')
                ]
                ]
 
 cancel_button = [
                 [
-                    InlineKeyboardButton('Cancel', callback_data='cancel_btn')
+                    InlineKeyboardButton('❌ Cancel ❌', callback_data='cancel_btn')
                 ]
                 ]
 
 prompt_thumb_btn = [
                    [
-                        InlineKeyboardButton('Yes', callback_data='set_thumb_btn'),
-                        InlineKeyboardButton('No', callback_data='close_btn')
+                        InlineKeyboardButton('👍🏻 Yes', callback_data='set_thumb_btn'),
+                        InlineKeyboardButton('👎🏻 No', callback_data='close_btn')
                    ]
                    ]
 

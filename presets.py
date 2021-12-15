@@ -45,6 +45,8 @@ class Presets(object):
     NO_VOID_FORMAT_FOUND = "<code>{}</code>"
     FINISHED_PROGRESS_STR = "◼️"
     UN_FINISHED_PROGRESS_STR = "◻️"
+    SOURCE_URL = "https://github.com/m4mallu/inline-tube-mate"
+    SUPPORT_URL = "https://t.me/RMProjects"
     CHECKING_LINK = "⏳ <code>Analyzing your link...</code>"
     DOWNLOAD_START = "⬇️ <code>Download Initiated...</code>"
     UPLOAD_START = "⬆️ <code>Upload Initiated...</code>"
@@ -78,5 +80,6 @@ URL | newfilename | username | password"""
     AD_STRING_TO_REPLACE = "please report this issue on https://yt-dl.org/bug . Make sure you are using the " \
                            "latest version; see  https://yt-dl.org/update  on how to update. Be sure to call " \
                            "youtube-dl with the --verbose flag and include its complete output."
-    INITIAL_MEDIA = "https://telegra.ph/file/f328510aa16bb40a4cd03.gif"
+    INITIAL_MEDIA = "https://telegra.ph/file/c3f88ba6883554654fb4e.png"
+    ERROR_MEDIA = "https://telegra.ph/file/27fd810c591c884dba11d.jpg"
     SETTINGS = "<code>Need an update in settings?</code>"

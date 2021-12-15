@@ -28,9 +28,13 @@ xxx = r"^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-
 
 @Client.on_message(filters.private & filters.regex(xxx))
 async def echo(bot, m: Message):
+    img = await m.reply_photo(Presets.INITIAL_MEDIA, quote=True)
     # If the Authorized user list is present, then only allow the above users to download videos. Else, will allow all.
     if Config.AUTH_USERS and (m.from_user.id not in Config.AUTH_USERS):
-        await m.reply_text(Presets.NOT_AUTH_TXT, reply_markup=reply_markup_close)
+        await img.edit_media(
+            InputMediaPhoto(media=Presets.ERROR_MEDIA, caption=Presets.NOT_AUTH_TXT),
+            reply_markup=reply_markup_close
+        )
         return
     # Force a subscriber to join a specific chat [ It happens only when Authorized users list is empty]
     if (not Config.AUTH_USERS) and Config.FORCE_SUB_CHAT:
@@ -40,7 +44,10 @@ async def echo(bot, m: Message):
         try:
             await bot.get_chat_member(int(Config.FORCE_SUB_CHAT), me.username)
         except Exception:
-            await m.reply_text(Presets.BOT_NOT_PRESENT, reply_markup=reply_markup_close)
+            await img.edit_media(
+                InputMediaPhoto(media=Presets.ERROR_MEDIA, caption=Presets.BOT_NOT_PRESENT),
+                reply_markup=reply_markup_close
+            )
             return
         # Checking, the user is already in the chat or not. Also collecting the chat parameters.
         try:
@@ -50,28 +57,27 @@ async def echo(bot, m: Message):
             # If the user is not in the chat, then force him to join the chat.
             # For public chats.
             if chat.username:
-                await m.reply_text(
-                    Presets.NOT_SUB_TXT,
+                await img.edit_media(
+                    InputMediaPhoto(media=Presets.ERROR_MEDIA, caption=Presets.NOT_SUB_TXT),
                     reply_markup=get_public_chat_link(chat.username)
                 )
                 return
             # For private chats
             elif chat.invite_link:
-                await m.reply_text(
-                    Presets.NOT_SUB_TXT,
+                await img.edit_media(
+                    InputMediaPhoto(media=Presets.ERROR_MEDIA, caption=Presets.NOT_SUB_TXT),
                     reply_markup=get_chat_invite_link(chat.invite_link)
                 )
                 return
             else:
                 # If an invite link is not found, then throw a message to create an invite link.
-                await m.reply_text(
-                    Presets.NO_INVITE_METHOD,
+                await img.edit_media(
+                    InputMediaPhoto(media=Presets.ERROR_MEDIA, caption=Presets.NO_INVITE_METHOD),
                     reply_markup=reply_markup_close
                 )
                 return
     else:
         pass
-    media = await m.reply_animation(Presets.INITIAL_MEDIA, quote=True)
     yt = ytdl(m.text)
     url = yt.watch_url
     thumb_url = yt.thumbnail_url
@@ -215,14 +221,21 @@ async def echo(bot, m: Message):
             uploaded_date = result['uploadDate']
             thumb = await yt_thumb_dl(thumb_url, m)
         except Exception:
-            await media.edit_caption(Presets.NOT_DOWNLOADABLE)
+            await img.edit_caption(Presets.NOT_DOWNLOADABLE)
             await asyncio.sleep(5)
-            await media.delete()
+            await img.delete()
             return
-        await media.edit_media(
+        await img.edit_media(
             InputMediaPhoto(
                 media=thumb,
-                caption=Presets.FORMAT_SELECTION.format(title, link, channel, uploaded_date, views, rating),
-                parse_mode="html"),
+                caption=Presets.FORMAT_SELECTION.format(
+                    title,
+                    link,
+                    channel,
+                    uploaded_date,
+                    views,
+                    rating
+                )
+            ),
             reply_markup=reply_markup
         )

@@ -52,27 +52,13 @@ async def delete_thumb(bot, cb: CallbackQuery):
                                 reply_markup=reply_markup_start
                                 )
 
+
 @Client.on_callback_query(filters.regex(r'^a_back_btn$'))
 async def a_back_button(bot, cb: CallbackQuery):
     await cb.message.delete()
     await cb.message.reply_text(Presets.OPTIONS_TXT,
                                 reply_markup=reply_markup_start
                                 )
-
-@Client.on_callback_query(filters.regex(r'^del_btn$'))
-async def del_thumbnail(bot, cb: CallbackQuery):
-    if Config.AUTH_USERS and (cb.from_user.id not in Config.AUTH_USERS):
-        await cb.answer(Presets.NOT_AUTH_TXT, True)
-        return
-    thumb_image_path = os.getcwd() + "/" + "thumbnails" + "/" + str(cb.from_user.id) + ".jpg"
-    if os.path.exists(thumb_image_path):
-        try:
-            os.remove(thumb_image_path)
-        except Exception:
-            pass
-        await cb.answer(Presets.DEL_THUMB_CNF, True)
-    else:
-        await cb.answer(Presets.NO_THUMB, True)
 
 
 @Client.on_callback_query(filters.regex(r'^help_btn$'))
