@@ -211,7 +211,7 @@ async def echo(bot, m: Message):
             title = result['title'][:25] + ".."
             link = result['channel']['link']
             channel = result['channel']['name']
-            rating = round(result['averageRating'], 1)
+            rating = round(result['averageRating'], 1) if result['averageRating'] else "N/A"
             uploaded_date = result['uploadDate']
             thumb = await yt_thumb_dl(thumb_url, m)
         except Exception:
